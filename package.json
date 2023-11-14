@@ -13,17 +13,17 @@
   "dependencies": {
     "ant-design-vue": "^4.0.7",
     "pinia": "^2.1.7",
-    "vue": "^3.3.4",
+    "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.4.0",
+    "@vitejs/plugin-vue": "^4.4.1",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "@vue/test-utils": "^2.4.1",
-    "cypress": "^13.3.1",
+    "cypress": "^13.5.0",
     "jsdom": "^22.1.0",
-    "start-server-and-test": "^2.0.1",
-    "vite": "^4.4.11",
+    "start-server-and-test": "^2.0.2",
+    "vite": "^4.5.0",
     "vitest": "^0.34.6"
   }
 }
