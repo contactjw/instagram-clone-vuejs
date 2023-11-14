@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import Nav from './components/Nav.vue';
+</script>
 
 <template>
-  <main></main>
+  <main>
+    <Nav />
+  </main>
 </template>
 
 <style scoped></style>
