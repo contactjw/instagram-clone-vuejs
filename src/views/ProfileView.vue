@@ -4,13 +4,6 @@ import Profile from '../components/Profile.vue';
 
 <template>
   <main>
-    <Profile
-      username="johnw"
-      :userInfo="{
-        posts: 4,
-        followers: 101,
-        following: 333,
-      }"
-    />
+    <Profile />
   </main>
 </template>
