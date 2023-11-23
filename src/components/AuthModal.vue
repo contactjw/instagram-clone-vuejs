@@ -27,7 +27,15 @@ const clearCredentialsInput = () => {
 };
 
 const handleOk = async (e) => {
-  await userStore.handleSignup(userCredentials);
+  if (props.isLogin) {
+    await userStore.handleLogin({
+      password: userCredentials.password,
+      email: userCredentials.email,
+    });
+  } else {
+    await userStore.handleSignup(userCredentials);
+  }
+
   if (user.value) {
     clearCredentialsInput();
     visible.value = false;
@@ -71,9 +79,9 @@ const title = props.isLogin ? 'Login' : 'Signup';
         />
         <AInput
           class="input"
+          type="password"
           v-model:value="userCredentials.password"
           placeholder="Password"
-          type="password"
         />
       </div>
       <div v-else class="spinner">
