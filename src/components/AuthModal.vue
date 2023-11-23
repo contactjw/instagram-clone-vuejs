@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
 
-const { errorMessage, loading } = storeToRefs(userStore);
+const { errorMessage, loading, user } = storeToRefs(userStore);
 const props = defineProps(['isLogin']);
 const visible = ref(false);
 
@@ -19,12 +19,23 @@ const showModal = () => {
   visible.value = true;
 };
 
-const handleOk = (e) => {
-  userStore.handleSignup(userCredentials);
+const clearCredentialsInput = () => {
+  userCredentials.email = '';
+  userCredentials.password = '';
+  userCredentials.username = '';
+  userStore.clearErrorMessage();
+};
+
+const handleOk = async (e) => {
+  await userStore.handleSignup(userCredentials);
+  if (user.value) {
+    clearCredentialsInput();
+    visible.value = false;
+  }
 };
 
 const handleCancel = () => {
-  userStore.clearErrorMessage();
+  clearCredentialsInput();
   visible.value = false;
 };
 
