@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
 
-const { errorMessage } = storeToRefs(userStore);
+const { errorMessage, loading } = storeToRefs(userStore);
 const props = defineProps(['isLogin']);
 const visible = ref(false);
 
@@ -38,6 +38,7 @@ const title = props.isLogin ? 'Login' : 'Signup';
       <template #footer>
         <AButton key="back" @click="handleCancel">Cancel</AButton>
         <AButton
+          :disabled="loading"
           key="submit"
           type="primary"
           :loading="loading"
@@ -45,23 +46,28 @@ const title = props.isLogin ? 'Login' : 'Signup';
           >Submit</AButton
         >
       </template>
-      <AInput
-        class="input"
-        v-if="!isLogin"
-        v-model:value="userCredentials.username"
-        placeholder="Username"
-      />
-      <AInput
-        class="input"
-        v-model:value="userCredentials.email"
-        placeholder="Email"
-      />
-      <AInput
-        class="input"
-        v-model:value="userCredentials.password"
-        placeholder="Password"
-        type="password"
-      />
+      <div v-if="!loading" class="input-container">
+        <AInput
+          class="input"
+          v-if="!isLogin"
+          v-model:value="userCredentials.username"
+          placeholder="Username"
+        />
+        <AInput
+          class="input"
+          v-model:value="userCredentials.email"
+          placeholder="Email"
+        />
+        <AInput
+          class="input"
+          v-model:value="userCredentials.password"
+          placeholder="Password"
+          type="password"
+        />
+      </div>
+      <div v-else class="spinner">
+        <ASpin />
+      </div>
       <ATypographyText v-if="errorMessage" type="danger">{{
         errorMessage
       }}</ATypographyText>
@@ -76,5 +82,16 @@ const title = props.isLogin ? 'Login' : 'Signup';
 
 .input {
   margin-top: 5px;
+}
+
+.input-container {
+  height: 120px;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
 }
 </style>
