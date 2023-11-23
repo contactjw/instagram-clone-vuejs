@@ -1,16 +1,31 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, reactive } from 'vue';
+import { useUserStore } from '../stores/users';
+import { storeToRefs } from 'pinia';
 
+const userStore = useUserStore();
+
+const { errorMessage } = storeToRefs(userStore);
 const props = defineProps(['isLogin']);
+const visible = ref(false);
 
-const open = ref(false);
+const userCredentials = reactive({
+  email: '',
+  password: '',
+  username: '',
+});
 
 const showModal = () => {
-  open.value = true;
+  visible.value = true;
 };
 
 const handleOk = (e) => {
-  open.value = false;
+  userStore.handleSignup(userCredentials);
+};
+
+const handleCancel = () => {
+  userStore.clearErrorMessage();
+  visible.value = false;
 };
 
 const title = props.isLogin ? 'Login' : 'Signup';
@@ -19,15 +34,37 @@ const title = props.isLogin ? 'Login' : 'Signup';
 <template>
   <div>
     <AButton type="primary" @click="showModal" class="btn">{{ title }}</AButton>
-    <AModal v-model:open="open" :title="title" @ok="handleOk">
+    <AModal v-model:visible="visible" :title="title" @ok="handleOk">
+      <template #footer>
+        <AButton key="back" @click="handleCancel">Cancel</AButton>
+        <AButton
+          key="submit"
+          type="primary"
+          :loading="loading"
+          @click="handleOk"
+          >Submit</AButton
+        >
+      </template>
       <AInput
         class="input"
         v-if="!isLogin"
-        v-model:value="value"
+        v-model:value="userCredentials.username"
         placeholder="Username"
       />
-      <AInput class="input" v-model:value="value" placeholder="Email" />
-      <AInput class="input" v-model:value="value" placeholder="Password" />
+      <AInput
+        class="input"
+        v-model:value="userCredentials.email"
+        placeholder="Email"
+      />
+      <AInput
+        class="input"
+        v-model:value="userCredentials.password"
+        placeholder="Password"
+        type="password"
+      />
+      <ATypographyText v-if="errorMessage" type="danger">{{
+        errorMessage
+      }}</ATypographyText>
     </AModal>
   </div>
 </template>
