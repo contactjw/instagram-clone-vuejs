@@ -7,7 +7,7 @@ const userStore = useUserStore();
 
 const { errorMessage, loading, user } = storeToRefs(userStore);
 const props = defineProps(['isLogin']);
-const visible = ref(false);
+const open = ref(false);
 
 const userCredentials = reactive({
   email: '',
@@ -16,7 +16,7 @@ const userCredentials = reactive({
 });
 
 const showModal = () => {
-  visible.value = true;
+  open.value = true;
 };
 
 const clearCredentialsInput = () => {
@@ -38,13 +38,13 @@ const handleOk = async (e) => {
 
   if (user.value) {
     clearCredentialsInput();
-    visible.value = false;
+    open.value = false;
   }
 };
 
 const handleCancel = () => {
   clearCredentialsInput();
-  visible.value = false;
+  open.value = false;
 };
 
 const title = props.isLogin ? 'Login' : 'Signup';
@@ -52,8 +52,9 @@ const title = props.isLogin ? 'Login' : 'Signup';
 
 <template>
   <div>
+    {{ user }}
     <AButton type="primary" @click="showModal" class="btn">{{ title }}</AButton>
-    <AModal v-model:visible="visible" :title="title" @ok="handleOk">
+    <AModal v-model:open="open" :title="title" @ok="handleOk">
       <template #footer>
         <AButton key="back" @click="handleCancel">Cancel</AButton>
         <AButton
