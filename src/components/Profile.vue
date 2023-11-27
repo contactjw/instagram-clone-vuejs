@@ -8,6 +8,7 @@ import UserBar from './UserBar.vue';
   <Container>
     <div class="profile-container">
       <UserBar
+        :key="$route.params.username"
         username="johnw"
         :userInfo="{
           posts: 4,
